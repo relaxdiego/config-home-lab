@@ -9,8 +9,7 @@ get a fresh set of baremetal and KVM machines with just a single command.
 
 This project doesn't add wrappers around pyinfra, so once you get the hang
 of [how to use pyinfra](https://docs.pyinfra.com/en/1.x/getting_started.html),
-then you can easily move on to some of the stuff I do in the `config/` dir
-of this project. Basically, you can try them out via:
+then you can try out some of the tasks like:
 
 ```
 pyinfra inventory/pxe.py tasks/pxe/install.py
