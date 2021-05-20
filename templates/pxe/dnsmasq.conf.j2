@@ -1,0 +1,18 @@
+port=0
+
+{%- for interface in dnsmasq.interfaces %}
+interface={{interface}}
+{%- endfor %}
+
+{%- for range in dnsmasq.dhcp.ranges %}
+dhcp-range={{range.start}},{{range.end}},{{dnsmasq.dhcp.subnet.netmask}},1m
+{%- endfor %}
+
+dhcp-option=option:router,{{dnsmasq.dhcp.gateway}}
+
+dhcp-option=option:dns-server,{{dnsmasq.dhcp.dns | join(',')}}
+
+log-dhcp
+
+enable-tftp
+tftp-root={{dnsmasq.tftp.root_dir}}
