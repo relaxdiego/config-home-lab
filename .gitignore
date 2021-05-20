@@ -16,3 +16,5 @@ venv
 pyinfra-debug.log
 group_data/*
 !group_data/example-*.py
+inventory/*
+!inventory/example-*.py

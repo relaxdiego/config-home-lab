@@ -1,3 +1,5 @@
+# Copy this via: cp inventory/example-pxe.py inventory/pxe.py
+
 # These are the machines that will be part of the PXE service
 # that will configure the baremetals and KVM machines in my lab
 #
