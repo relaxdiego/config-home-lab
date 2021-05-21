@@ -16,3 +16,12 @@ log-dhcp
 
 enable-tftp
 tftp-root={{dnsmasq.tftp.root_dir}}
+
+# === Tag machines (via set:<tag>) so dnsmasq can process them accordingly
+{% for machine in machines %}
+dhcp-mac=set:pxe-client-{{machine.client_type}},{{machine.mac_address}}
+{% endfor -%}
+
+{% for bootloader in dnsmasq.tftp.bootloaders %}
+dhcp-boot=tag:pxe-client-{{bootloader.client_type}},{{bootloader.client_type}}/{{bootloader.source_url.split('/')[-1]}},{{dnsmasq.tftp.ip_address}},{{dnsmasq.tftp.ip_address}}
+{% endfor -%}

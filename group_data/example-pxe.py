@@ -24,6 +24,29 @@ dnsmasq = {
     },
 
     "tftp": {
-        "root_dir": "/opt/home-lab/pxe/tftp"
-    }
+        "ip_address": "192.168.100.2",
+        "root_dir": "/opt/home-lab/pxe/tftp",
+
+        "bootloaders": [
+            {
+                "client_type": "kvm-host",
+                "source_url": "http://archive.ubuntu.com/ubuntu/dists/focal/main/uefi/grub2-amd64/2.04-1ubuntu26/grubnetx64.efi.signed",  # NOQA
+                "sha256sum": "279a5a755bc248d22799434a261b92698740ab817d8aeccbd0cb7409959a1463",  # NOQA
+            }
+        ],
+
+    },
 }
+
+machines = [
+    {
+        "hostname": "kvm-1",
+        "client_type": "kvm-host",
+        "mac_address": "f4:4d:30:63:1c:41",
+    },
+    {
+        "hostname": "kvm-2",
+        "client_type": "kvm-host",
+        "mac_address": "f4:4d:30:63:56:21",
+    },
+]

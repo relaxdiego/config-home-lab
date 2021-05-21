@@ -1,3 +1,4 @@
+from pathlib import Path
 from pyinfra import (
     host,
 )
@@ -29,6 +30,25 @@ files.directory(
     sudo=True,
 )
 
+for bootloader in host.data.dnsmasq["tftp"]["bootloaders"]:
+    bootloader_dir = \
+        Path(host.data.dnsmasq["tftp"]["root_dir"]) / bootloader["client_type"]
+
+    files.directory(
+        name=f'Ensure bootloader directory {bootloader_dir}',
+        path=str(bootloader_dir),
+        present=True,
+        sudo=True,
+    )
+
+    files.download(
+        name=f'Download bootloader {bootloader["source_url"]}',
+        src=str(bootloader["source_url"]),
+        dest=str(bootloader_dir / bootloader["source_url"].split('/')[-1]),
+        sha256sum=bootloader["sha256sum"],
+        sudo=True,
+    )
+
 dnsmasq_conf = files.template(
     name='Render the dnsmasq config',
     src='templates/pxe/dnsmasq.conf.j2',
@@ -38,6 +58,7 @@ dnsmasq_conf = files.template(
     group='root',
     sudo=True,
     dnsmasq=host.data.dnsmasq,
+    machines=host.data.machines,
 )
 
 systemd.service(
